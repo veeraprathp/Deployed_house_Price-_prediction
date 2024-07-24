@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>California Housing Data Input</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-container h2 {
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>California Housing Data Input</h2>
+    <form action="/predictata" method="post">
+        <div class="form-group">
+            <label for="MedInc">Median Income:</label>
+            <input type="text" id="MedInc" name="MedInc" required>
+        </div>
+        <div class="form-group">
+            <label for="HouseAge">House Age:</label>
+            <input type="text" id="HouseAge" name="HouseAge" required>
+        </div>
+        <div class="form-group">
+            <label for="AveRooms">Average Rooms:</label>
+            <input type="text" id="AveRooms" name="AveRooms" required>
+        </div>
+        <div class="form-group">
+            <label for="AveBedrms">Average Bedrooms:</label>
+            <input type="text" id="AveBedrms" name="AveBedrms" required>
+        </div>
+        <div class="form-group">
+            <label for="Population">Population:</label>
+            <input type="text" id="Population" name="Population" required>
+        </div>
+        <div class="form-group">
+            <label for="AveOccup">Average Occupancy:</label>
+            <input type="text" id="AveOccup" name="AveOccup" required>
+        </div>
+        <div class="form-group">
+            <label for="Latitude">Latitude:</label>
+            <input type="text" id="Latitude" name="Latitude" required>
+        </div>
+        <div class="form-group">
+            <label for="Longitude">Longitude:</label>
+            <input type="text" id="Longitude" name="Longitude" required>
+        </div>
+        <div class="form-group">
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+    <div class="result">
+        {% if result is not none %}
+            <h3>Predicted Value: {{ result }}</h3>
+        {% endif %}
+    </div>
+</div>
+
+</body>
+</html>

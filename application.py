@@ -1,42 +1,37 @@
-from flask import Flask,request,jsonify,render_template
+import streamlit as st
 import pickle
 import numpy as np
+from models1 import regressor
+from models1 import scaler
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
+# Load the pre-trained models
+regressor = pickle.load(open("models1/regressor.pkl", 'rb'))
+scaler = pickle.load(open("models1/scaler.pickle", 'rb'))
 
-Application = Flask(__name__)
-app = Application
+# Set up the Streamlit app
+st.title('House Price Prediction App')
 
-#import the Multiple Linear Regrssion pickle
+# Input fields for user to enter data
+MedInc = st.number_input('Median Income', min_value=0.0, format="%.2f")
+HouseAge = st.number_input('House Age', min_value=0.0, format="%.2f")
+AveRooms = st.number_input('Average Rooms', min_value=0.0, format="%.2f")
+Population = st.number_input('Population', min_value=0.0, format="%.2f")
+AveOccup = st.number_input('Average Occupancy', min_value=0.0, format="%.2f")
+Latitude = st.number_input('Latitude', min_value=-90.0, max_value=90.0, format="%.6f")
+Longitude = st.number_input('Longitude', min_value=-180.0, max_value=180.0, format="%.6f")
 
-Regressor_model = pickle.load(open("models1/regressor.pkl",'rb'))
-Standard_scaler = pickle.load(open("models1/scaler.pickle",'rb'))
-
-
-@app.route("/")
-def index():
-    return render_template('index.html')
-def hello_world():
-    return "<h1>Hello, World!</h1>"
-
-@app.route('/predictata',methods =['GET','POST'])
-def predict_datapoint():
-    if request.method =='POST':
-       MedInc = float(request.form.get('MedInc'))
-       HouseAge = float(request.form.get('HouseAge'))
-       AveRooms = float(request.form.get('AveRooms'))
-       Population = float(request.form.get('Population'))
-       AveOccup = float(request.form.get('AveOccup'))
-       Latitude = float(request.form.get('MedInc'))
-       Longitude = float(request.form.get('Longitude'))
-
-       input_data = np.array([[MedInc, HouseAge, AveRooms, AveBedrms, Population, AveOccup, Latitude, Longitude]])
-
-       new_scaled_data=scaler.transform([[MedInc,HouseAge,AveRooms,AveBedrms,Population	,AveOccup,Latitude,Longitude]])
-       reslut= regressor.predict(new_scaled_data)
-    else:
-        return render_template('Home.html',resluts = [0])
-
-if __name__=="__main__":
-    app.run(host="0.0.0.0")
+# Button to trigger prediction
+if st.button('Predict'):
+    # Prepare the input data
+    input_data = np.array([[MedInc, HouseAge, AveRooms, Population, AveOccup, Latitude, Longitude]])
+    
+    # Scale the input data
+    new_scaled_data = scaler.transform(input_data)
+    
+    # Make prediction
+    result = regressor.predict(new_scaled_data)
+    
+    # Display the result
+    st.write(f'Predicted House Price: ${result[0]:,.2f}')

@@ -3,7 +3,7 @@ import pickle
 import numpy as np
 #from models1 import regressor
 #from models1 import scaler
-from altair.vegalite.v4.api import Chart
+#from altair.vegalite.v4.api import Chart
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
